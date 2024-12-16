@@ -60,7 +60,7 @@ def menu():
                     descripcion = input("Descripción del producto: ")
                     cantidad = input_num("Cantidad: ")
                     precio = input_float("Precio: ")
-                    categoria = input("Categoría: ")
+                    categoria = input_num("Categoría: ")
                     umbral_stock_bajo = input_num("Umbral de stock bajo: ")
                     agregar_producto(nombre, descripcion, cantidad, precio, categoria, umbral_stock_bajo)
                     repetir = input(f"{Fore.MAGENTA}¿Desea agregar otro producto? (s/n): {Style.RESET_ALL}").lower()
@@ -92,7 +92,6 @@ def menu():
                     if not productos:
                         print(f"{Fore.YELLOW}No hay productos en el inventario.{Style.RESET_ALL}")
                         break
-
                     listar_productos()
                     id = input("ID del producto que desea eliminar (o ingrese 'S' para salir): ")
                     if id.lower() == 's':
@@ -107,30 +106,35 @@ def menu():
                         print(Fore.RED + "ID no válido. Por favor, ingrese un número o 'S' para salir." + Style.RESET_ALL)
             elif opcion == '4':
                 listar_productos()
+            
             elif opcion == "5":
             # Opción 5 para buscar productos
                 while True:
-                    criterio = input("Buscar por (id/nombre/categoría) o ingrese 'S' para salir: ").lower()
+                    criterio = input("Buscar por 1_id, 2_nombre, 3_categoría) o ingrese 'S' para salir: ").lower()
+                    print(f"criterio ingresado: {criterio}") # Mensaje de depuración if criterio == 's':
                     if criterio == 's':
                         break
-                    if criterio == 'id':
-                        id_producto = input_num("ID del producto: ")  # La función input_num debe permitir ingresar solo números
+                    if criterio == '1':
+                        id_producto = int(input_num("Id del producto: ")) # La función input_num asegura que se ingrese un número
+                        print(f"ID ingresado: {id_producto}") # Test
                         productos = buscar_producto_por_id(id_producto)
                         if len(productos) == 0:
                             print(f"{Fore.YELLOW}No se encontraron productos con ese ID.{Style.RESET_ALL}")
                         else:
                             for producto in productos:
                                 print(f"{Fore.GREEN}{producto[0]:<5} {producto[1]:<20} {producto[2]:<30} {producto[3]:<10} {producto[4]:<10} {producto[5]:<10}{Style.RESET_ALL}")
-                    elif criterio == 'nombre':
+                    elif criterio == '2':
                         nombre = input("Nombre del producto: ").strip()
+                        print(f"Nombre ingresado: {nombre}") # Test
                         productos = buscar_producto_por_nombre(nombre)
                         if len(productos) == 0:
                             print(f"{Fore.YELLOW}No se encontraron productos con ese nombre.{Style.RESET_ALL}")
                         else:
                             for producto in productos:
                                 print(f"{Fore.GREEN}{producto[0]:<5} {producto[1]:<20} {producto[2]:<30} {producto[3]:<10} {producto[4]:<10} {producto[5]:<10}{Style.RESET_ALL}")
-                    elif criterio == 'categoria':
-                        categoria = input("Categoría del producto: ").strip()
+                    elif criterio == '3':
+                        categoria = int(input_num("Categoría del producto: "))
+                        print(f"Categoria ingresada: {categoria}") # Test
                         productos = buscar_producto_por_categoria(categoria)
                         if len(productos) == 0:
                             print(f"{Fore.YELLOW}No se encontraron productos con esa categoría.{Style.RESET_ALL}")
@@ -139,6 +143,7 @@ def menu():
                                 print(f"{Fore.GREEN}{producto[0]:<5} {producto[1]:<20} {producto[2]:<30} {producto[3]:<10} {producto[4]:<10} {producto[5]:<10}{Style.RESET_ALL}")
                     else:
                         print(Fore.RED + "Criterio no válido. Por favor, elija id, nombre o categoría." + Style.RESET_ALL)
+            
             elif opcion == '6':
                 while True:
                     print(f"{Fore.CYAN}\nGenerar Reporte{Style.RESET_ALL}")

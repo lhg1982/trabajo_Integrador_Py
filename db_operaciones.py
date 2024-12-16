@@ -15,7 +15,7 @@ def crear_bd():
             descripcion TEXT,
             cantidad INTEGER NOT NULL,
             precio REAL NOT NULL,
-            categoria TEXT
+            categoria INTEGER NOT NULL
         )
     ''')
 
@@ -124,8 +124,10 @@ def buscar_producto_por_id(id_producto):
     try:
         conn = sqlite3.connect('inventario.db')
         cursor = conn.cursor()
+        print(f"Buscando producto con ID: {id_producto}")  # Mensaje de depuración
         cursor.execute('SELECT * FROM productos WHERE id = ?', (id_producto,))
         productos = cursor.fetchall()
+        print(f"Productos encontrados: {productos}")  # Mensaje de depuración
         conn.close()
         return productos
     except sqlite3.Error as e:
@@ -150,8 +152,10 @@ def buscar_producto_por_categoria(categoria):
     try:
         conn = sqlite3.connect('inventario.db')
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM productos WHERE LOWER(categoria) LIKE LOWER(?)', ('%' + categoria + '%',))
+        print(f"Buscando producto con ID: {categoria}")  # Mensaje de depuración
+        cursor.execute('SELECT * FROM productos WHERE categoria = ?', (categoria,))
         productos = cursor.fetchall()
+        print(f"Productos encontrados: {productos}")  # Mensaje de depuración
         conn.close()
         return productos
     except sqlite3.Error as e:
